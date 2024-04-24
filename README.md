@@ -34,7 +34,7 @@ Bizcard Extraction is a Python application built with Streamlit, EasyOCR, OpenCV
   #  STEP4:  Click "Delete data"
   ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/c90fb4ba-4a04-412f-92fd-fce2cbf6f5d5)
 
-  #  STEP5: delete the information about selecting a name
+  #  STEP5: delete the information regarding selecting a name
   ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/fea32d11-6c39-49bf-85be-40443e92fdb6)
   and click "delete"
 

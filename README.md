@@ -19,5 +19,13 @@ Bizcard Extraction is a Python application built with Streamlit, EasyOCR, OpenCV
   ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/6514fe34-1a1b-424d-b6be-1e781b463ad2)
   Thus, you have taken the text out of the picture and made it appear on that webpage. additionally added to the specific database.
 
-### 
+### Database
+  #  step1:  click "Database" 
+    The options to update and delete data are opened here.
+  #  STEP2:   click "Update data"
+  ![Screenshot 2024-04-24 122921](https://github.com/vivekarajan/Bizcard/assets/46365159/4f620041-ca9e-4403-bf12-e501bb5e06b1)
+
+
+  
+  
 

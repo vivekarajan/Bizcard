@@ -4,6 +4,21 @@ DS-BizCardX: Extracting Business Card Data with OCR
 ###  Objective:
 Bizcard Extraction is a Python application built with Streamlit, EasyOCR, OpenCV, regex function, and MySQL database. It allows users to extract information from business cards and store it in a MySQL database for further analysis. We can update and delete those details with respect of choosing any column name given. 
 
+###  Technologies Used
+->  Streamlit
+->  Streamlit_lottie
+->  Python
+->  RegEx
+->  EasyOCR
+->  OpenCV
+->  MySQL
+
+### PURPOSE 
+*  Streamlit - For building interactive web applications with ease.
+*  EasyOCR - For text extraction from images.
+*  OpenCV - For image preprocessing and manipulation.
+*  MySQL - For the database management system.
+
 ####  HOMEPAGE
 ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/f3b520d9-f702-4c33-a869-474a3aa81a7e)
 
@@ -41,7 +56,28 @@ Bizcard Extraction is a Python application built with Streamlit, EasyOCR, OpenCV
   you can see the data after delete that particular data
   ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/67629fd9-8791-4cf7-b45a-087bd5bbf8c6)
 
+###  Features
+  1.  Extracts text information from business card images using EasyOCR.
+  2.  Utilizes OpenCV for image preprocessing and getting a text from given image.
+  3.  Uses regular expressions (RegEx) to parse and extract specific fields like name, designation, company name, contact, websites, email, address, city, state, pincode.
+  4.  Stores the extracted information in a MySQL database for easy retrieval.
+  5.  Provides a user-friendly interface built with Streamlit to upload images, extract information, and update/delete the data in database.
 
+###  How to use
+1.Run the Streamlit application:
+"streamlit run ./bizproject.py"
+
+2.Access the application in your browser at http://localhost:8501.
+
+3.Upload a business card image to extract the information.
+
+4.The application will preprocess the image using OpenCV.
+
+5.The processed image will be passed to EasyOCR for text extraction.
+
+6.The extracted information will be displayed on the screen, and it will be stored in the MySQL database.
+
+7.Use the provided options to view, update and delete the extracted data in the database.
 
 
   

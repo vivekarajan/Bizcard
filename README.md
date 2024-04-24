@@ -7,3 +7,8 @@ Bizcard Extraction is a Python application built with Streamlit, EasyOCR, OpenCV
 ####  HOMEPAGE
 ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/f3b520d9-f702-4c33-a869-474a3aa81a7e)
 
+###  IMAGE TO TEXT EXTRACTION
+  #  STEP1: Click image to text button
+  ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/0c300132-777b-464b-b64b-75e787d79da0)
+
+

@@ -22,8 +22,26 @@ Bizcard Extraction is a Python application built with Streamlit, EasyOCR, OpenCV
 ### Database
   #  step1:  click "Database" 
     The options to update and delete data are opened here.
-  #  STEP2:   click "Update data"
   ![Screenshot 2024-04-24 122921](https://github.com/vivekarajan/Bizcard/assets/46365159/4f620041-ca9e-4403-bf12-e501bb5e06b1)
+  
+  #  STEP2:   click "Update data"
+  ![Screenshot 2024-04-24 124058](https://github.com/vivekarajan/Bizcard/assets/46365159/36c66425-dcaa-418f-8386-d2f112af16a4)
+  
+  #  step 3:  update the selected "card_holder_name" of company data "selva digitals" to "new Selva digitals"
+  ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/9b269708-119c-49f6-a1ad-3910bb2a072d)
+    here you can see the updated company data.
+
+  #  STEP4:  Click "Delete data"
+  ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/c90fb4ba-4a04-412f-92fd-fce2cbf6f5d5)
+
+  #  STEP5: delete the information about selecting a name
+  ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/fea32d11-6c39-49bf-85be-40443e92fdb6)
+  and click "delete"
+
+  you can see the data after delete that particular data
+  ![image](https://github.com/vivekarajan/Bizcard/assets/46365159/67629fd9-8791-4cf7-b45a-087bd5bbf8c6)
+
+
 
 
   

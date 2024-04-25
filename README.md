@@ -78,8 +78,3 @@ Bizcard Extraction is a Python application built with Streamlit, EasyOCR, OpenCV
 6.The extracted information will be displayed on the screen, and it will be stored in the MySQL database.
 
 7.Use the provided options to view, update and delete the extracted data in the database.
-
-
-  
-  
-

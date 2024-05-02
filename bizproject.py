@@ -9,10 +9,10 @@ import pandas as pd
 
 
 connection = mysql.connector.connect(
-        host='127.0.0.1',
-        user='root',
-        password="Happylife@1309",
-        database="bizcard"
+        host='host',
+        user='user',
+        password="pwd",
+        database="dbname"
     )
 cur = connection.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS image ("
@@ -30,13 +30,7 @@ cur.execute("CREATE TABLE IF NOT EXISTS image ("
                                     "image LONGBLOB )")
 #------------------------------------------------------------------------------------------------
 # Setting up page configuration
-st.set_page_config(page_title= "bizcard project - Vivekarajan S",
-                   layout= "wide",
-                   initial_sidebar_state= "expanded",
-                   menu_items={'About': """# This dashboard app is created by *Vivekarajan S*!
-                                        for image to text bounding process"""})
-
-st.sidebar.header(" :blue[**Hello! Welcome to my IMAGE TO TEXT EXTRACTION WEB APPLICATION**]")
+st.sidebar.header(" :blue[**Hello!**]")
 
 #create option in side bar
 with st.sidebar:
@@ -48,11 +42,8 @@ with st.sidebar:
                         "nav-link-selected": {"background-color": "#008DDA"}})
 #------------------------------------------------------------------------------------------------
                   
-#selected = option_menu('Main Menu', ['Home',"Image to Text","Database"],
- #                      icons=["house",'file-earmark-font','gear'],default_index=0)
-
 if selected == "Home":
-    st.markdown("## :blue[Streamlit's User-Friendly Move toward of Environment Creation]")
+    st.markdown("## :blue[Welcome to my IMAGE TO TEXT EXTRACTION APPLICATION]")
     st.write(" ")
     st.markdown("""### :blue[Technologies used :] 
                 Python, MySQL, mysql-connector-python, 
@@ -67,25 +58,25 @@ if selected=='Image to Text':
         with file:
             uploaded_file = st.file_uploader("Choose an image of a business card", type=["jpg", "jpeg", "png"])
             if uploaded_file is not None:
-                file_bytes = uploaded_file.read()
-                npa = np.frombuffer(file_bytes, np.uint8)
-                image = cv2.imdecode(npa, cv2.IMREAD_COLOR)
-                st.image(image,channels='BGR' ,use_column_width=True)
+                file_bytes = uploaded_file.read()   # reading the file
+                npa = np.frombuffer(file_bytes, np.uint8) #stores unsigned 8 bit int into 1 dim array
+                image = cv2.imdecode(npa, cv2.IMREAD_COLOR) #read with color
+                st.image(image,channels='BGR' ,use_column_width=True) #display the image
                 
             if st.button('EXTRACT & UPLOAD TO DB'):
-              reader=easyocr.Reader(['en'])
-              results = reader.readtext(image)
+              reader=easyocr.Reader(['en']) #english word read by easyocr
+              results = reader.readtext(image) #extract text from image
               card_info = [i[1] for i in results]
+              #card_info=[0:"Selva"1:"DATA MANAGER"2:"+123-456-7890"3:"+123-456-7891"4:"WWW XYZI.com"5:"hello@XYZ1.com"
+                        #6:"123 ABC St , Chennai;"7:"selva"8:"TamilNadu 600113"9:"digitals"]
               a = ' '
               card = a.join(card_info)  #convert the all info to string
-              #st.write(card_info)    #check the o/p after join function
               #ease to find using regex
               replacement = [(";", ""),(',', ''),("WWW ", "www."),
                     ("www ", "www."),('www', 'www.'),('www.', 'www'),
                     ('wwW', 'www'),('wWW', 'www'),('.com', 'com'),('com', '.com')]
               for old, new in replacement:
                   card = card.replace(old, new)
-
               # ----------------------------------------------------------
               #phone content
               #card =Selva DATA MANAGER +123-456-7890 +123-456-7891 WWW XYZI.com hello@XYZ1.com 123 ABC St , Chennai; selva TamilNadu 600113 digitals
@@ -96,7 +87,8 @@ if selected=='Image to Text':
                   Phone = Phone + ' ' + num
                   card = card.replace(num, '')
 
-              # ------------------Mail id--------------------------------------------
+              # --------------------------------------------------------------
+              #mail id 
               mail_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}\b"
               mail = re.findall(mail_pattern, card)
               Email_id = ''
@@ -104,7 +96,8 @@ if selected=='Image to Text':
                   Email_id = Email_id + ids
                   card = card.replace(ids, '')
 
-              # ---------------------------Website----------------------------------
+              # -------------------------------------------------------------
+              #website url
               url_pattern = r"www\.[A-Za-z0-9]+\.[A-Za-z]{2,3}"
               url = re.findall(url_pattern, card)
               URL = ''
@@ -112,7 +105,8 @@ if selected=='Image to Text':
                   URL = URL + web
                   card = card.replace(web, '')
 
-              # ------------------------pincode-------------------------------------------
+              # --------------------------------------------------------------
+              #pincode
               pin_pattern = r'\d+'
               match = re.findall(pin_pattern, card)
               Pincode = ''
@@ -121,9 +115,10 @@ if selected=='Image to Text':
                       Pincode = Pincode + code
                       card = card.replace(code, '')
 
-              # ---------------name ,designation, company name-------------------------------
+              # -------------------------------------------------------------
               #card_info=[0:"Selva"1:"DATA MANAGER"2:"+123-456-7890"3:"+123-456-7891"4:"WWW XYZI.com"5:"hello@XYZ1.com"
                           #6:"123 ABC St , Chennai;"7:"selva"8:"TamilNadu 600113"9:"digitals"]
+              #name ,designation, company name
               name_pattern = r'^[A-Za-z]+ [A-Za-z]+$|^[A-Za-z]+$|^[A-Za-z]+ & [A-Za-z]+$'
               name_data = []  # empty list
               for i in card_info:
@@ -142,7 +137,8 @@ if selected=='Image to Text':
               card = card.replace(designation, '')
 
               #-----------------------------------------------------------------------
-
+            #card =Selva DATA MANAGER +123-456-7890 +123-456-7891 WWW XYZI.com hello@XYZ1.com 123 ABC St , Chennai; selva TamilNadu 600113 digitals
+        
               #city,state,address
               new = card.split()
               if new[4] == 'St':
@@ -188,64 +184,55 @@ if selected=='Image to Text':
 
 #-------------------------------------------------------------------------------------------------------------
 if selected=='Database':
-        option = option_menu(None, ["Update data", "Delete data"],
-                            icons=["image", "pencil-fill", 'exclamation-diamond'], default_index=0)
-        cur.execute("SELECT * FROM image")
-        myresult = cur.fetchall()
-        #convert into dataframe using pandas
-        df=pd.DataFrame(myresult,columns=['id','company', 'name','designation','contact','email','website','address','city','state','pincode','image'])
-        df.set_index('id', drop=True, inplace=True)
-        st.write(df)
-        if option=='Update data':
-            name,new_name=st.columns(2)
-            with name:
-                # Get the available row IDs from the database
-                cur.execute("SELECT name FROM image")
-                rows = cur.fetchall()
-                row_name = [row[0] for row in rows]
-                #row_designation = [row[1] for row in rows]
-
-                # Display the selection box
-                selection_name = st.selectbox("Select name to update", row_name)
-                #selection_designation = st.selectbox("Select designation to update", row_designation)
-            with new_name:
-                # Get the column names from the table
-                cur.execute("SHOW COLUMNS FROM image")
-                columns = cur.fetchall()
-                column_names = [i[0] for i in columns if i[0] not in ['id', 'image','name','designation']]
-
-                # Display the selection box for column name
-                selection = st.selectbox("Select specific column to update", column_names)
-                new_data = st.text_input(f"Enter the new {selection}")
-
-                # Define the SQL query to update the selected rows
-                sql = f"UPDATE image SET {selection} = %s WHERE name = %s"
-
-                # Execute the query with the new values
-                if st.button("Update"):
-                    cur.execute(sql, (new_data, selection_name))
-                    # Commit the changes to the database
-                    connection.commit()
-                    st.experimental_rerun()
+    option = option_menu(None, ["Update data", "Delete data"],
+                        icons=["pencil-fill", 'exclamation-diamond'], default_index=0)
+    cur.execute("SELECT * FROM image")
+    myresult = cur.fetchall()
+    #convert into dataframe using pandas
+    df=pd.DataFrame(myresult,columns=['id','company', 'name','designation','contact','email','website','address','city','state','pincode','image'])
+    df.set_index('id', drop=True, inplace=True)
+    st.write(df)
+    if option=='Update data':
+        name,new_name=st.columns(2)
+        with name:
+            # Get the available names from the database
+            cur.execute("SELECT name FROM image")
+            rows = cur.fetchall()
+            row_name = [row[0] for row in rows]
+            # Display the selection box
+            selection_name = st.selectbox("Select name to update", row_name)
+           
+        with new_name:
+            # Get the column names from the table
+            cur.execute("SHOW COLUMNS FROM image")
+            columns = cur.fetchall()
+            column_names = [i[0] for i in columns if i[0] not in ['id', 'image','name','designation']]
+            # Display the selection box for column name
+            selection = st.selectbox("Select specific column to update", column_names)
+            new_data = st.text_input(f"Enter the new {selection}")
+            # Define the SQL query to update the selected rows
+            sql = f"UPDATE image SET {selection} = %s WHERE name = %s"
+            # Execute the query with the new values
+            if st.button("Update"):
+                cur.execute(sql, (new_data, selection_name))
+                # Commit the changes to the database
+                connection.commit()
+                st.experimental_rerun()
 
 #-----------------------------------------------------------------------------------------------------------
-        #delete data
-        else:
-            left,right=st.columns([2,2.5])
-            with left:
-                cur.execute("SELECT name FROM image")
-                rows = cur.fetchall()    #collecting all the data
-                row_name = [row[0] for row in rows]
-                #row_designation = [row[1] for row in rows]
+    #delete data
+    else:
+        left,right=st.columns([2,2.5]) #split the page 
+        with left:
+            cur.execute("SELECT name FROM image")
+            rows = cur.fetchall()    #collecting all the data
+            row_name = [row[0] for row in rows]
             # Display the selection box
-                selection_name = st.selectbox("Select name to delete", row_name)
-            #with right:
-                #selection_designation = st.selectbox("Select designation to delete", row_designation)
+            selection_name = st.selectbox("Select name to delete", row_name)
+            if st.button('DELETE'):
+                sql = "DELETE FROM image WHERE name = %s"
+            # Execute the query with the values as a tuple
+                cur.execute(sql, (selection_name,))
+                connection.commit()
+                st.experimental_rerun()
         
-                if st.button('DELETE'):
-                    sql = "DELETE FROM image WHERE name = %s"
-                # Execute the query with the values as a tuple
-                    cur.execute(sql, (selection_name,))
-                    connection.commit()
-                    st.experimental_rerun()
-            
